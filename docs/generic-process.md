@@ -6,8 +6,9 @@ config:
       flowchart:
         curve: basis
 ---
+                
 flowchart LR  
-    A(["Customers"])
+    Customers
     subgraph Functions
         direction RL
         vBU["Vertical BU"]
@@ -20,7 +21,7 @@ flowchart LR
         GCS["Global Customer Success"]
     end
 
-    A --> Functions
+    Customers --> Functions
 
     subgraph Requirements
         direction RL
@@ -54,13 +55,12 @@ flowchart LR
 
     ProdReq["Product Request"]
 
-    ReqDesc@{ shape: text, label: "**Product Requirement**
-    Requirements captured into PRD or interim requirements register
+    ReqDesc@{ shape: text, label: "**Product Requirement**<br>
+    Requirements captured into PRD or interim requirements register<br>
     **Guidelines:**
     - **Scope, objective, and constraints of the system**
     - Expectation of the stakeholders and users
-    - Focus on What and Why
-    
+    - Focus on What and Why<br>
     **Structure**
     - **Tile/Name concise and recognizable requirement name**
     - Mapped to specific product domains impacted
@@ -77,46 +77,37 @@ flowchart LR
     - Non-functional requirements
       - Performance, security, quality, reliability, scalability
       - Compliance and regulatory requirements
-    - Ranking set via Drivers & Score fields
-    
+    - Ranking set via Drivers & Score fields<br>
     **Desired delivery schedule set via timeframe entry.**"}
 
     ProdReq -- "Typical case for majority of new incremental requirements." --> Requirement
-
+    ReqDesc ~~~ Requirement
+                                             
     subgraph Refine
         direction LR
-        ProdForum["**Product Requirement Working Forum**
-        
+        ProdForum["**Product Requirement Working Forum**<br>
         Requirements Backlog
         Target release and priority assigned to each requirement in the backlog
-        (Twice a month forum)
-        
+        (Twice a month forum)<br>
         **Product Requirement Decision Forum**
         (Monthly forum)"]
         Backlog@{ shape: subproc }
         StackRank@{ shape: subproc }
         ProdForum --> Backlog --> StackRank
     end
-
     Requirement --> Refine
-    PL@{ shape: text, label: "Product Leader"}
-    Gate
-    PL ~~~ Gate
-    Refine ---> Gate
 
-    subgraph EESA
-        direction LR
-        EESAp["System Architect decides if EESA is needed (e.g. net new functionality)"]
-        EESAdesc@{ shape: text, label:"The End to End System Architecture is a set of Architecture Design Records that address the PRD requirements."}
-    end
-    Gate --> EESA
+    PL@{shape: text, label: "Product Leader"}
+    Gate1["Gate"]              
+    PL ~~~ Gate1
+    Refine ---> Gate1
 
     subgraph EESAgraph
         direction LR
         EESAp["System Architect decides if EESA is needed (e.g. net new functionality)"]
         EESAdesc@{shape: text, label: "The End to End System Architecture is a set of Architecture Design Records that address the PRD requirements"}
         EESA["End to End System Architecture"]
-        EESAdoc@{ shape: text, label: "End to End System Architecture (EESA)<br>
+        EESAdoc@{shape: text, label: "End to End System Architecture (EESA)<br>
         This is the high level engineering document that enumerates the requirements on how the system is to function or what it should do.<br>
         Includes a visual representation of the end to end system (example: system architecture diagram)<br>
         Goal for this document:
@@ -125,8 +116,30 @@ flowchart LR
         - Written to be abstract and logical
         - Focus on the What and the Why (shouldn't this be the how?)<br>
         Structure of the Document
-        - Introduction "}
+        - Introduction
+          - Goals / Scope
+          - Constraints
+          - Reference
+        - Description
+          - Product Description
+          - RBAC / Roles for User personas and characteristics (refer to PRD)
+            - APIs for permissions / role mgmt
+          - APIs for User scenario (Refer to PRD)
+              - Use case / workflow 1
+              - Use case / workflow 2
+          - Design and implementation constraints
+          - Assumptions and Depndencies
+        - System / Product features
+          - Feature 1
+          - Feature 2
+        - Data model
+          - Primary nodes of the data model
+          - Relation beetween data model nodes
+          - High level APIs
+            "}
         EESAp --> EESA
+        EESAdesc ~~~ EESA
     end
+    Gate1 --> EESAgraph
 
 ```
